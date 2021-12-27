@@ -23,10 +23,14 @@ def init_app():
     with app.app_context():
         # Import parts of our application
         from .home import routes
+        from .benford_eval import routes
         # from .errors import routes
+
+        # print('Blueprint: ' + routes, file=sys.stderr)
 
         # Register Blueprints
         app.register_blueprint(home.routes.home_bp)
+        app.register_blueprint(benford_eval.routes.benford_eval_bp)
         # app.register_blueprint(errors.routes.errors_bp)
 
         return app

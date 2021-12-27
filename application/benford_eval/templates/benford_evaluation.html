@@ -1,0 +1,71 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Benford Tester - Evaluation</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.0/dist/chart.min.js"></script>
+  </head>
+
+  <body>
+    <div>
+      <h1>Benford's Law Evaluation Results</h1>
+      <table>
+        <tr>
+          <th>Leading Value</th>
+          <th>Test Data Freq</th>
+          <th>Test Data Freq Percent</th>
+          <th>Benford's Law</th>
+        </tr>
+        {% for val in labels %}
+        <tr>
+          <th>{{ val }}</th>
+          <td>{{ dist[val - 1] }}</td>
+          <td>{{ percents[val - 1] }}</td>
+          <td>{{ benfords_dist[val - 1] }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    <div
+      class="chart-container"
+      style="position: relative; height: 40vh; width: 80vw"
+    >
+      <canvas id="benford_chart"></canvas>
+    </div>
+
+    <script lang="javascript">
+      function generate_charts(labels, test_dist, benfords_dist, percents) {
+        new Chart(document.getElementById("benford_chart"), {
+          data: {
+            datasets: [{
+              type: 'bar',
+              label: 'Test Distribution',
+              data: percents
+            }, {
+              type: 'line',
+              label: 'Benford\'s Distribution',
+              data: benfords_dist
+            }],
+            labels: labels,
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          }
+        })
+      }
+
+      generate_charts({{ labels|safe }}, {{ dist|safe }}, {{ benfords_dist|safe }}, {{ percents|safe }});
+    </script>
+  </body>
+</html>

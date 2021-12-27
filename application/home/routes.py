@@ -39,7 +39,6 @@ def home():
         sample_data = []
         sample_size = 10
         row_count = 0
-        first_ints = []
 
         for el in input_file:
           row_count += 1
@@ -51,7 +50,7 @@ def home():
         # of the dataset
         # firstInt = math.floor(val / math.pow(10, math.floor(math.log10(val))))
 
-        return render_template('data_selection.html', col_data=keys_list, row_data=sample_data)
+        return render_template('data_selection.html', file_name=file_name, col_data=keys_list, row_data=sample_data)
 
         # Make it do something useful
         # return 'file uploaded successfully'

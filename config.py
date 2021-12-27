@@ -5,8 +5,8 @@ basedir = path.join(path.abspath(path.dirname(__file__)), 'application')
 load_dotenv(path.join(basedir, '.env'))
 
 class Config:
-  # SECRET_KEY = environ.get('SECRET_KEY')
-  # SESSION_COOKIE_NAME = environ.get('SESSION_COOKIE_NAME')
+  SECRET_KEY = environ.get('SECRET_KEY')
+  SESSION_COOKIE_NAME = environ.get('SESSION_COOKIE_NAME')
   STATIC_FOLDER = 'static'
   TEMPLATES_FOLDER = 'templates'
   UPLOADS_FOLDER = path.join(basedir, 'uploads')

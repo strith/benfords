@@ -45,12 +45,19 @@
   <body>
     <div style="margin-top: 50px" class="ui container">
       <h1 class="ui center aligned header">Benford Tester</h1>
-      <span
-        >Data column: <span id="dataColumnName"></span>
-        <a href="process_data.html"
-          ><button disabled id="submitButton">Test Data</button></a
-        >
-      </span>
+      <form
+        class="ui form"
+        action="benford_eval"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <span>Data column: <span id="dataColumnName"></span></span>
+        <input type="hidden" name="file_name" value="{{ file_name }}" />
+        <input id="colNameInput" type="hidden" name="col_name" value="" />
+        <button id="submitButton" class="ui blue button" type="submit" disabled>
+          Test Data
+        </button>
+      </form>
       <table>
         <thead>
           {% for col in col_data %}
@@ -81,6 +88,9 @@
         document.getElementById("dataColumnName").textContent = el.getAttribute(
           "data-column-clicked"
         );
+        document
+          .getElementById("colNameInput")
+          .setAttribute("value", el.getAttribute("data-column-clicked"));
         document.getElementById("submitButton").removeAttribute("disabled");
         let wereSelected = document.getElementsByClassName("selected-column");
 
