@@ -1,0 +1,95 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Benford Tester</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+    <style>
+      table {
+        border-spacing: 0;
+        border-collapse: collapse;
+        overflow: hidden;
+        z-index: 1;
+      }
+
+      td,
+      th,
+      .row,
+      .col {
+        cursor: pointer;
+        padding: 10px;
+        position: relative;
+      }
+
+      td:hover::after,
+      .col:hover::after,
+      .selected-column::after {
+        background-color: #ffa;
+        content: "\00a0";
+        height: 10000px;
+        left: 0;
+        position: absolute;
+        top: -5000px;
+        width: 100%;
+        z-index: -1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div style="margin-top: 50px" class="ui container">
+      <h1 class="ui center aligned header">Benford Tester</h1>
+      <span
+        >Data column: <span id="dataColumnName"></span>
+        <a href="process_data.html"
+          ><button disabled id="submitButton">Test Data</button></a
+        >
+      </span>
+      <table>
+        <thead>
+          {% for col in col_data %}
+          <th data-column-clicked="{{ col }}" onclick="columnClicked('this');">
+            {{ col }}
+          </th>
+          {% endfor %}
+        </thead>
+        {% for row in row_data %}
+        <tr>
+          {% for col_name in col_data %}
+          <!-- <td onclick="columnClicked('{{ col_name }}');"> -->
+          <td
+            data-column-clicked="{{ col_name }}"
+            onclick="columnClicked(this);"
+          >
+            {{ row[col_name] }}
+          </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+
+    <script type="text/javascript">
+      // function columnClicked(clickedName) {
+      function columnClicked(el) {
+        document.getElementById("dataColumnName").textContent = el.getAttribute(
+          "data-column-clicked"
+        );
+        document.getElementById("submitButton").removeAttribute("disabled");
+        let wereSelected = document.getElementsByClassName("selected-column");
+
+        for (let i = 0; i < wereSelected.length; i++) {
+          wereSelected[i].classList.remove("selected-column");
+        }
+
+        el.classList.add("selected-column");
+      }
+    </script>
+  </body>
+</html>
