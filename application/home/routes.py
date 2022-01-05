@@ -1,6 +1,6 @@
 import csv
-import math
 import os
+from stat import *
 from flask import Blueprint, render_template, request
 from flask import current_app as app
 from werkzeug.utils import secure_filename
@@ -24,14 +24,15 @@ def home():
         if file_name == '':
           return 'Invalid file, please try again'
         
-        base_dir = os.path.join(app.config['UPLOADS_FOLDER'], file_name)
+        file_path = os.path.join(app.config['UPLOADS_FOLDER'], file_name)
 
-        # if os.path.isfile(base_dir):
+        # if os.path.isfile(file_path):
         #   return 'That file already exists, please try again'
 
-        f.save(base_dir)
+        f.save(file_path)
+        os.chmod(file_path, 0o664)
 
-        input_file = csv.DictReader(open(base_dir), delimiter='\t')
+        input_file = csv.DictReader(open(file_path), delimiter='\t')
         keys_list = [*next(input_file)]
 
         # Find the first n lines of the file so the user can click
@@ -46,11 +47,4 @@ def home():
             break
           sample_data.append(dict(el))
 
-        # find the first integer of each element in the selected column
-        # of the dataset
-        # firstInt = math.floor(val / math.pow(10, math.floor(math.log10(val))))
-
         return render_template('data_selection.html', file_name=file_name, col_data=keys_list, row_data=sample_data)
-
-        # Make it do something useful
-        # return 'file uploaded successfully'
