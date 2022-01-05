@@ -31,6 +31,14 @@
         </tr>
         {% endfor %}
       </table>
+      <p>
+        This data set has a Chi-Square of {{ chi_stat }} with a p-value of {{
+        chi_p }}
+      </p>
+      <p>
+        This indicates that the data-set <strong>{{ chi_fit }}</strong> the
+        Benford's Law distribution.
+      </p>
     </div>
     <div
       class="chart-container"

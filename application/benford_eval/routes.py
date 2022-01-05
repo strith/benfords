@@ -2,9 +2,9 @@ from ast import literal_eval
 import csv
 import math
 import os
-import json
 from flask import Blueprint, redirect, render_template, request
 from flask import current_app as app
+from scipy.stats import chisquare
 from werkzeug.utils import secure_filename
 
 benford_eval_bp = Blueprint(
@@ -28,7 +28,7 @@ def benford_eval():
     benfords_dist = [30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1, 4.6]
     distribution = [0] * 9
     percents = [0] * 9
-
+    
     data_set = csv.DictReader(open(file_path), delimiter='\t')
 
     for el in data_set:
@@ -44,5 +44,9 @@ def benford_eval():
       percents[i] = round(distribution[i] / value_count * 100, 1)
       i += 1
 
+    chi_squared = chisquare(percents, benfords_dist)
+    chi_stat = chi_squared[0]
+    chi_p = chi_squared[1]
+    chi_fit = 'fits' if chi_p > 0.95 else 'doesn\'t fit'
 
-    return render_template('benford_evaluation.html', labels=labels, benfords_dist=benfords_dist, dist=distribution, percents=percents)
+    return render_template('benford_evaluation.html', labels=labels, benfords_dist=benfords_dist, dist=distribution, percents=percents, chi_stat=chi_stat, chi_p=chi_p, chi_fit=chi_fit)
