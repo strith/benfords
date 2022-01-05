@@ -9,8 +9,8 @@ Store previous run data in DB
 
 ## Docker Build & Run
 
-docker build . -t benfords_image
-docker run --name benfords_container -p 80:80 benfords_image
+docker build . -t benfords_image  
+docker run --name benfords_container -p 5000:80 benfords_image
 
-Access running container:
+**Access running container:**  
 docker exec -it benfords_container /bin/bash
